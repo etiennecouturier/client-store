@@ -16,16 +16,16 @@ public class MainApplication {
     @Bean
     ApplicationRunner init(ClientRepository repository) {
         Object[][] data = {
-                {"1", "Andrew", 30},
-                {"2", "Andrew", 100},
-                {"3", "Andrew", 75}
+                {"Andrew", 30},
+                {"Peter", 100},
+                {"Rob", 75}
         };
 
         return args -> repository
                 .deleteAll()
                 .thenMany(
                         just(data)
-                                .map(array -> new Client((String) array[0], (String) array[1], (Integer) array[2]))
+                                .map(array -> new Client((String) array[0], (Integer) array[1]))
                                 .flatMap(repository::save)
                 )
                 .thenMany(repository.findAll())
