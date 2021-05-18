@@ -13,9 +13,15 @@ class Client {
     private String id;
     private String name;
     private Integer age;
+    private Integer height;
+    private String eyeColor;
+    private Address address;
 
-    Client(String name, Integer age) {
+    public Client(String name, Integer age, Integer height, String eyeColor, Address address) {
         this.name = name;
         this.age = age;
+        this.height = height;
+        this.eyeColor = eyeColor;
+        this.address = address;
     }
 }
