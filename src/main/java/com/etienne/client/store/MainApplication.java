@@ -1,4 +1,4 @@
-package com.okta.springbootmongo;
+package com.etienne.client.store;
 
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;

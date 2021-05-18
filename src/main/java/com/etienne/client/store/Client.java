@@ -1,4 +1,4 @@
-package com.okta.springbootmongo;
+package com.etienne.client.store;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
