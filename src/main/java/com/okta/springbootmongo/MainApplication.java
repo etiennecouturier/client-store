@@ -14,22 +14,21 @@ public class MainApplication {
     }
 
     @Bean
-    ApplicationRunner init(KayakRepository repository) {
-
+    ApplicationRunner init(ClientRepository repository) {
         Object[][] data = {
-                {"sea", "Andrew", 300.12, "NDK"},
-                {"creek", "Andrew", 100.75, "Piranha"},
-                {"loaner", "Andrew", 75, "Necky"}
+                {"1", "Andrew", 30},
+                {"2", "Andrew", 100},
+                {"3", "Andrew", 75}
         };
 
         return args -> repository
                 .deleteAll()
                 .thenMany(
                         just(data)
-                                .map(array -> new Kayak((String) array[0], (String) array[1], (Number) array[2], (String) array[3]))
+                                .map(array -> new Client((String) array[0], (String) array[1], (Integer) array[2]))
                                 .flatMap(repository::save)
                 )
                 .thenMany(repository.findAll())
-                .subscribe(kayak -> System.out.println("saving " + kayak.toString()));
+                .subscribe(client -> System.out.println("saving " + client.toString()));
     }
 }

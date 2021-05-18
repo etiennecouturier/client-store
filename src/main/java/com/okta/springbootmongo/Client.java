@@ -3,15 +3,16 @@ package com.okta.springbootmongo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Kayak {
+public class Client {
+    @Id
+    private String id;
     private String name;
-    private String owner;
-    private Number value;
-    private String makeModel;
+    private Integer age;
 }
