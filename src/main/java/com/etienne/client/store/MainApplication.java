@@ -5,7 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import static reactor.core.publisher.Flux.just;
+import java.util.Arrays;
+
+import static java.util.Arrays.stream;
 
 @SpringBootApplication
 public class MainApplication {
@@ -16,21 +18,18 @@ public class MainApplication {
     @Bean
     ApplicationRunner init(ClientRepository repository) {
         Object[][] data = {
-                {"Andrew", 30, 170, "brown", "Hungary", 1028, "Pest", "Budapest", "Deak Ferenc", 16},
-                {"Peter", 100, 174, "blue", "Hungary", 1028, "Pest", "Budapest", "Deak Ferenc", 16},
-                {"Rob", 75, 150, "brown", "Hungary", 1028, "Pest", "Budapest", "Deak Ferenc", 16}
+                {"Istvan", "1990/03/28", "+36301942154", "istvan@gmail.com"},
+                {"Andrew", "1990/03/28", "+36301942155", "andrew@gmail.com"},
+                {"Peter", "1990/03/28", "+36301942156", "peter@gmail.com"},
         };
 
-        return args -> repository
-                .deleteAll()
-                .thenMany(
-                        just(data)
-                                .map(array -> new Client((String) array[0], (Integer) array[1], (Integer) array[2], (String) array[3], new Address(
-                                        (String) array[4], (Integer) array[5], (String) array[6], (String) array[7], (String) array[8], (Integer) array[9]
-                                )))
-                                .flatMap(repository::save)
-                )
-                .thenMany(repository.findAll())
-                .subscribe(client -> System.out.println("saving " + client.toString()));
+        return args -> {
+            repository.deleteAll();
+
+            stream(data).forEach(array -> repository.save(
+                    new Client((String) array[0], (String) array[1], (String) array[2], (String) array[3])));
+
+            repository.findAll().forEach(client -> System.out.println("saving " + client.toString()));
+        };
     }
 }
