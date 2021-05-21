@@ -16,6 +16,7 @@ import static org.springframework.data.domain.PageRequest.of;
 @Controller
 @RequestMapping(path = "/clients")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClientController {
 
     private final ClientRepository clientRepository;
