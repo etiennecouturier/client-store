@@ -1,5 +1,7 @@
-package com.etienne.client.store;
+package com.etienne.client.store.controller;
 
+import com.etienne.client.store.Client;
+import com.etienne.client.store.ClientRepository;
 import com.etienne.client.store.model.PagingParams;
 import com.etienne.client.store.model.SortingParams;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,12 @@ import static org.springframework.data.domain.PageRequest.of;
 public class ClientController {
 
     private final ClientRepository clientRepository;
+
+    @GetMapping(path = "/id")
+    public @ResponseBody Client getClientById(String id) throws Exception {
+        return clientRepository.findById(id).
+                orElseThrow(() -> new Exception("Client not found"));
+    }
 
     @PostMapping()
     public @ResponseBody
@@ -43,4 +51,10 @@ public class ClientController {
                 of(pagingParams.getPage(), pagingParams.getSize(), sortingParams.getSorting())
         );
     }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public void deleteClient(@PathVariable("id") String id) {
+        clientRepository.deleteById(id);
+    }
+
 }

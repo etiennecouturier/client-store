@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document
 @Data
 @NoArgsConstructor
@@ -15,15 +17,14 @@ public class Client {
     private String dob;
     private String tel;
     private String email;
+    private List<Visit> visits;
 
-    public Client(String name, String dob, String tel, String email) {
+    public Client(String name, String dob, String tel,
+                  String email, List<Visit> visits) {
         this.name = name;
         this.dob = dob;
         this.tel = tel;
         this.email = email;
-    }
-
-    public Client(String name) {
-        this.name = name;
+        this.visits = visits;
     }
 }
