@@ -52,7 +52,8 @@ public class ClientController {
         );
     }
 
-    @DeleteMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/{id}")
+    @ResponseBody
     public void deleteClient(@PathVariable("id") String id) {
         clientRepository.deleteById(id);
     }

@@ -23,12 +23,6 @@ public class MainApplication {
 
     @Bean
     ApplicationRunner init(ClientRepository repository) {
-        Object[][] data = {
-                {"Istvan", "1990/03/28", "+36301942154", "istvan@gmail.com"},
-                {"Andrew", "1990/03/28", "+36301942155", "andrew@gmail.com"},
-                {"Peter", "1990/03/28", "+36301942156", "peter@gmail.com"},
-        };
-
         return args -> {
             repository.deleteAll();
             importData("clients.csv").forEach(repository::save);
