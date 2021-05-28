@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.etienne.client.store.repository.ClientExample.clientExample;
+import static java.util.Collections.sort;
 import static org.springframework.data.domain.PageRequest.of;
 
 @Controller
@@ -24,9 +25,14 @@ public class ClientController {
     private final ClientRepository clientRepository;
 
     @GetMapping(path = "/id")
-    public @ResponseBody Client getClientById(String id) throws Exception {
-        return clientRepository.findById(id).
-                orElseThrow(() -> new Exception("Client not found"));
+    public @ResponseBody
+    Client getClientById(String id) throws Exception {
+        return clientRepository.findById(id)
+                .map(client -> {
+                    sort(client.getVisits());
+                    return client;
+                })
+                .orElseThrow(() -> new Exception("Client not found"));
     }
 
     @PostMapping(path = "/new")
@@ -42,14 +48,15 @@ public class ClientController {
     }
 
     @GetMapping(path = "/filter")
-    public @ResponseBody
-    Page<Client> filterClients(Client filter,
-                               SortingParams sortingParams,
-                               PagingParams pagingParams) {
+    @ResponseBody
+    public Page<Client> filterClients(Client filter,
+                                      SortingParams sortingParams,
+                                      PagingParams pagingParams) {
         return clientRepository.findAll(
                 clientExample(filter),
                 of(pagingParams.getPage(), pagingParams.getSize(), sortingParams.getSorting())
         );
+
     }
 
     @DeleteMapping(path = "/{id}")
