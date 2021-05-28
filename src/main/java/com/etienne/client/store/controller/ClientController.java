@@ -38,7 +38,9 @@ public class ClientController {
     @PostMapping(path = "/new")
     public @ResponseBody
     Client addClient(@RequestBody Client client) {
-        return clientRepository.save(client);
+        Client resultClient = clientRepository.save(client);
+        sort(resultClient.getVisits());
+        return resultClient;
     }
 
     @GetMapping()
