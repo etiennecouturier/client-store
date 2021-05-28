@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Bean;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
@@ -17,6 +20,9 @@ import static java.util.Objects.requireNonNull;
 
 @SpringBootApplication
 public class MainApplication {
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);
     }
@@ -36,10 +42,10 @@ public class MainApplication {
                 requireNonNull(MainApplication.class.getResourceAsStream("/" + fileName))))){
             String line;
             while ((line = br.readLine()) != null) {
-                String[] p = line.split("\t");
+                String[] p = line.split(",", -1);
                 List<Visit> visits = new ArrayList<>();
-                Visit visit = new Visit(p[9], new Eye(parseD(p[10]), parseD(p[11]), parseI(p[12]), parseD(p[13])),
-                        new Eye(parseD(p[14]), parseD(p[15]), parseI(p[16]), parseD(p[17])), "");
+                Visit visit = new Visit(parseDate(p[9]), new Eye(parseD(p[10]), parseD(p[11]), parseI(p[12]), parseD(p[13])),
+                        new Eye(parseD(p[14]), parseD(p[15]), parseI(p[16]), parseD(p[17])), p[18]);
                 visits.add(visit);
                 Client client = new Client(p[0], p[2], p[7], p[8], visits);
                 clients.add(client);
@@ -56,5 +62,14 @@ public class MainApplication {
 
     private Integer parseI(String i) {
         return "".equals(i) ? null : parseInt(i);
+    }
+
+    private Date parseDate(String strDate) {
+        try {
+            return "".equals(strDate) ? null : sdf.parse(strDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -29,7 +29,7 @@ public class ClientController {
                 orElseThrow(() -> new Exception("Client not found"));
     }
 
-    @PostMapping()
+    @PostMapping(path = "/new")
     public @ResponseBody
     Client addClient(@RequestBody Client client) {
         return clientRepository.save(client);
