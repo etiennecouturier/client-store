@@ -1,7 +1,7 @@
 package com.etienne.client.store.controller;
 
-import com.etienne.client.store.Client;
-import com.etienne.client.store.ClientRepository;
+import com.etienne.client.store.model.Client;
+import com.etienne.client.store.repository.ClientRepository;
 import com.etienne.client.store.model.PagingParams;
 import com.etienne.client.store.model.SortingParams;
 import lombok.RequiredArgsConstructor;

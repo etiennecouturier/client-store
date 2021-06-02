@@ -1,5 +1,9 @@
 package com.etienne.client.store;
 
+import com.etienne.client.store.model.Client;
+import com.etienne.client.store.model.Eye;
+import com.etienne.client.store.model.Visit;
+import com.etienne.client.store.repository.ClientRepository;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
