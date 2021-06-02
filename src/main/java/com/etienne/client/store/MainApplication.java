@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
-import static java.lang.Integer.parseInt;
 import static java.util.Objects.requireNonNull;
 
 @SpringBootApplication
@@ -34,9 +33,9 @@ public class MainApplication {
     @Bean
     ApplicationRunner init(ClientRepository repository) {
         return args -> {
-//            repository.deleteAll();
-//            importData("clients.csv").forEach(repository::save);
-//            repository.findAll().forEach(client -> System.out.println("saving " + client.toString()));
+            repository.deleteAll();
+            importData("clients.csv").forEach(repository::save);
+            repository.findAll().forEach(client -> System.out.println("saving " + client.toString()));
         };
     }
 
