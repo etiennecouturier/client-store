@@ -1,6 +1,6 @@
 package com.etienne.client.store.repository;
 
-import com.etienne.client.store.Client;
+import com.etienne.client.store.model.Client;
 import org.springframework.data.domain.Example;
 
 import static org.springframework.data.domain.Example.of;

@@ -1,4 +1,4 @@
-package com.etienne.client.store;
+package com.etienne.client.store.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ public class Eye {
 
     private Double dioptria;
     private Double cilinder;
-    private Integer fok;
+    private Double fok;
     private Double vizus;
 
 }

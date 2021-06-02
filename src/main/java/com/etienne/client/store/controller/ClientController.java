@@ -1,19 +1,22 @@
 package com.etienne.client.store.controller;
 
-import com.etienne.client.store.Client;
-import com.etienne.client.store.ClientRepository;
+import com.etienne.client.store.model.Client;
+import com.etienne.client.store.repository.ClientRepository;
 import com.etienne.client.store.model.PagingParams;
 import com.etienne.client.store.model.SortingParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import static com.etienne.client.store.repository.ClientExample.clientExample;
+import static java.util.Collections.sort;
 import static org.springframework.data.domain.PageRequest.of;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @Controller
 @RequestMapping(path = "/clients")
@@ -24,15 +27,23 @@ public class ClientController {
     private final ClientRepository clientRepository;
 
     @GetMapping(path = "/id")
-    public @ResponseBody Client getClientById(String id) throws Exception {
-        return clientRepository.findById(id).
-                orElseThrow(() -> new Exception("Client not found"));
+    public @ResponseBody
+    Client getClientById(String id) throws Exception {
+        return clientRepository.findById(id)
+                .map(client -> {
+                    sort(client.getVisits());
+                    return client;
+                })
+                .orElseThrow(() -> new Exception("Client not found"));
     }
 
-    @PostMapping()
-    public @ResponseBody
-    Client addClient(@RequestBody Client client) {
-        return clientRepository.save(client);
+    @PostMapping(path = "/new")
+    @ResponseBody
+    @ResponseStatus(CREATED)
+    public Client addClient(@RequestBody Client client) {
+        Client resultClient = clientRepository.save(client);
+        sort(resultClient.getVisits());
+        return resultClient;
     }
 
     @GetMapping()
@@ -42,18 +53,20 @@ public class ClientController {
     }
 
     @GetMapping(path = "/filter")
-    public @ResponseBody
-    Page<Client> filterClients(Client filter,
-                               SortingParams sortingParams,
-                               PagingParams pagingParams) {
+    @ResponseBody
+    public Page<Client> filterClients(Client filter,
+                                      SortingParams sortingParams,
+                                      PagingParams pagingParams) {
         return clientRepository.findAll(
                 clientExample(filter),
                 of(pagingParams.getPage(), pagingParams.getSize(), sortingParams.getSorting())
         );
+
     }
 
     @DeleteMapping(path = "/{id}")
     @ResponseBody
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteClient(@PathVariable("id") String id) {
         clientRepository.deleteById(id);
     }
