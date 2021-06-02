@@ -11,7 +11,7 @@ public class Eye {
 
     private Double dioptria;
     private Double cilinder;
-    private Integer fok;
+    private Double fok;
     private Double vizus;
 
 }
