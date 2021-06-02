@@ -14,7 +14,8 @@ public class Visit implements Comparable<Visit> {
     private Date date;
     private Eye rightEye;
     private Eye leftEye;
-    private String notes;
+    private String examNotes;
+    private String shoppingNotes;
 
     @Override
     public int compareTo(Visit visit) {

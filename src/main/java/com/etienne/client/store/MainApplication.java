@@ -45,9 +45,9 @@ public class MainApplication {
                 String[] p = line.split(",", -1);
                 List<Visit> visits = new ArrayList<>();
                 Visit visit = new Visit(parseDate(p[9]), new Eye(parseD(p[10]), parseD(p[11]), parseI(p[12]), parseD(p[13])),
-                        new Eye(parseD(p[14]), parseD(p[15]), parseI(p[16]), parseD(p[17])), p[18]);
+                        new Eye(parseD(p[14]), parseD(p[15]), parseI(p[16]), parseD(p[17])), p[18], "");
                 visits.add(visit);
-                Client client = new Client(p[0], p[2], p[7], p[8], visits);
+                Client client = new Client(p[0], p[2], p[7].isEmpty()? p[7]:"06"+p[7], p[8], visits);
                 clients.add(client);
             }
         } catch (IOException e) {
