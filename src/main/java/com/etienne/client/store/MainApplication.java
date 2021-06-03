@@ -43,6 +43,7 @@ public class MainApplication {
 
     private List<Client> importData(String fileName) {
         List<Client> clients = new ArrayList<>();
+
         try(BufferedReader br = new BufferedReader(new InputStreamReader(
                 requireNonNull(MainApplication.class.getResourceAsStream("/" + fileName))))){
             String line;
