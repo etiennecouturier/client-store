@@ -37,6 +37,12 @@ public class ClientController {
                 .orElseThrow(() -> new Exception("Client not found"));
     }
 
+    @GetMapping(path = "/ping")
+    public @ResponseBody
+    String ping() {
+        return "hello";
+    }
+
     @PostMapping(path = "/new")
     @ResponseBody
     @ResponseStatus(CREATED)

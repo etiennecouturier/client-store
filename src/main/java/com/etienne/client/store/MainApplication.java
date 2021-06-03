@@ -8,6 +8,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.util.List;
 import static java.lang.Double.parseDouble;
 import static java.util.Objects.requireNonNull;
 
+@EnableScheduling
 @SpringBootApplication
 public class MainApplication {
 
