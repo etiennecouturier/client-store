@@ -12,8 +12,10 @@ import java.util.Date;
 public class Visit implements Comparable<Visit> {
 
     private Date date;
-    private Eye rightEye;
-    private Eye leftEye;
+    private Exam historicExam;
+    private Exam exam;
+    private Exam contactLenseExam;
+    private String contactLenseNotes;
     private String examNotes;
     private String shoppingNotes;
 
