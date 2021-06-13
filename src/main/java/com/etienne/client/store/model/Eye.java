@@ -13,5 +13,6 @@ public class Eye {
     private Double cilinder;
     private Double fok;
     private Double vizus;
+    private Double szaruGorbulet;
 
 }

@@ -53,16 +53,16 @@ public class MainApplication {
                 List<Visit> visits = new ArrayList<>();
                 Visit visit = new Visit(parseDate(p[9]),
                         new Exam(
-                                new Eye(null, null, null, null),
-                                new Eye(null, null, null, null)
+                                new Eye(null, null, null, null, null),
+                                new Eye(null, null, null, null, null)
                         ),
                         new Exam(
-                                new Eye(parseD(p[10]), parseD(p[11]), parseD(p[12]), parseD(p[13])),
-                                new Eye(parseD(p[14]), parseD(p[15]), parseD(p[16]), parseD(p[17]))
+                                new Eye(parseD(p[10]), parseD(p[11]), parseD(p[12]), parseD(p[13]), null),
+                                new Eye(parseD(p[14]), parseD(p[15]), parseD(p[16]), parseD(p[17]), null)
                         ),
                         new Exam(
-                                new Eye(null, null, null, null),
-                                new Eye(null, null, null, null)
+                                new Eye(null, null, null, null, null),
+                                new Eye(null, null, null, null, null)
                         ), "", p[18], "");
                 visits.add(visit);
                 Client client = new Client(p[0], p[2], p[7].isEmpty() ? p[7] : "06" + p[7], p[8], visits);
