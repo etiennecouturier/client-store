@@ -15,8 +15,6 @@ public class Visit implements Comparable<Visit> {
     private Exam historicExam;
     private Exam exam;
     private Exam contactLenseExam;
-    private String contactLenseNotes;
-    private String examNotes;
     private String shoppingNotes;
 
     @Override

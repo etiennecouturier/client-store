@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class Exam {
     private Eye rightEye;
     private Eye leftEye;
+    String notes;
 }
