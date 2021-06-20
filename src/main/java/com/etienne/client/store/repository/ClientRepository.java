@@ -16,7 +16,8 @@ public interface ClientRepository extends MongoRepository<Client, String> {
                         "count: { $sum: 1 }" +
                     "}}",
                     "{ $sort: { _id : -1 } }",
-                    "{ $limit: 10}"
+                    "{ $limit: 10}",
+                    "{ $project: { _id: 0, date: $_id, count: 1 }}"
     })
     List<CountPerDate> findVisitCountForLast10Days();
 
