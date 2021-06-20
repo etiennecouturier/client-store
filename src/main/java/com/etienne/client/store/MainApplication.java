@@ -36,8 +36,8 @@ public class MainApplication {
     @Bean
     ApplicationRunner init(ClientRepository repository) {
         return args -> {
-            repository.deleteAll();
-            importData("clients.csv").forEach(repository::save);
+//            repository.deleteAll();
+//            importData("clients.csv").forEach(repository::save);
             repository.findAll().forEach(client -> System.out.println("saving " + client.toString()));
         };
     }
