@@ -1,9 +1,10 @@
 package com.etienne.client.store.controller;
 
-import com.etienne.client.store.model.Client;
+import com.etienne.client.store.model.domain.Client;
+import com.etienne.client.store.model.stats.CountPerDate;
 import com.etienne.client.store.repository.ClientRepository;
-import com.etienne.client.store.model.PagingParams;
-import com.etienne.client.store.model.SortingParams;
+import com.etienne.client.store.model.params.PagingParams;
+import com.etienne.client.store.model.params.SortingParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,6 +57,12 @@ public class ClientController {
     public @ResponseBody
     List<Client> getAllClients() {
         return clientRepository.findAll();
+    }
+
+    @GetMapping("/visit-count-last-10-days")
+    public @ResponseBody
+    List<CountPerDate> getVisitCountForLast10Days() {
+        return clientRepository.findVisitCountForLast10Days();
     }
 
     @GetMapping(path = "/filter")

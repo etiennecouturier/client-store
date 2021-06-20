@@ -1,4 +1,4 @@
-package com.etienne.client.store.model;
+package com.etienne.client.store.model.params;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
