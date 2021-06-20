@@ -14,7 +14,7 @@ public class RestService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-//    @Scheduled(fixedRate = 1000 * 60 * 20)
+    @Scheduled(fixedRate = 1000 * 60 * 20)
     public void ping() {
         restTemplate.getForObject("https://optics-client-store.herokuapp.com/ping", String.class);
     }
