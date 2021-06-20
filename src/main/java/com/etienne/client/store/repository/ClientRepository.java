@@ -11,10 +11,7 @@ public interface ClientRepository extends MongoRepository<Client, String> {
 
     @Aggregation(pipeline = {
                     "{ $unwind : '$visits'}",
-                    "{ $group : {" +
-                        "_id: '$visits.date'," +
-                        "count: { $sum: 1 }" +
-                    "}}",
+                    "{ $group : {_id: '$visits.date', count: { $sum: 1 }}}",
                     "{ $sort: { _id : -1 } }",
                     "{ $limit: 10}",
                     "{ $project: { _id: 0, date: $_id, count: 1 }}"
