@@ -16,7 +16,7 @@ public class RestService {
 
     @Scheduled(fixedRate = 1000 * 60 * 20)
     public void ping() {
-        restTemplate.getForObject("https://optics-client-store.herokuapp.com/ping", String.class);
+        restTemplate.getForObject("https://clients-store.herokuapp.com/ping", String.class);
     }
 
 }
