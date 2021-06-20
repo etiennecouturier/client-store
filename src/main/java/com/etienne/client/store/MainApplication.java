@@ -38,7 +38,7 @@ public class MainApplication {
         return args -> {
 //            repository.deleteAll();
 //            importData("clients.csv").forEach(repository::save);
-            repository.findAll().forEach(client -> System.out.println("saving " + client.toString()));
+//            repository.findAll().forEach(client -> System.out.println("saving " + client.toString()));
         };
     }
 
