@@ -14,8 +14,19 @@ public interface ClientRepository extends MongoRepository<Client, String> {
                     "{ $group : {_id: '$visits.date', count: { $sum: 1 }}}",
                     "{ $sort: { _id : -1 } }",
                     "{ $limit: 10}",
+                    "{ $sort: { _id : 1 } }",
                     "{ $project: { _id: 0, date: $_id, count: 1 }}"
     })
     List<CountPerDate> findVisitCountForLast10Days();
+
+    @Aggregation(pipeline = {
+            "{ $unwind : '$visits'}",
+            "{ $group : {_id: '$visits.date', count: { $sum: 1 }}}",
+            "{ $sort: { _id : -1 } }",
+            "{ $limit: 10}",
+            "{ $sort: { _id : 1 } }",
+            "{ $project: { _id: 0, date: $_id, count: 1 }}"
+    })
+    List<CountPerDate> findCountPerAge();
 
 }

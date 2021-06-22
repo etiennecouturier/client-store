@@ -26,7 +26,7 @@ import static java.util.Objects.requireNonNull;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DataMaintenanceService {
 
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     private final ClientRepository clientRepository;
 
@@ -62,7 +62,7 @@ public class DataMaintenanceService {
                                 ""
                         ), "");
                 visits.add(visit);
-                Client client = new Client(p[0], p[2], p[7].isEmpty() ? p[7] : "06" + p[7], p[8], visits);
+                Client client = new Client(p[0], parseDate(p[2]), p[7].isEmpty() ? p[7] : "06" + p[7], p[8], visits);
                 clients.add(client);
             }
         } catch (IOException e) {
