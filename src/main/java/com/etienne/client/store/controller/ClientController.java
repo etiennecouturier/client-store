@@ -1,15 +1,14 @@
 package com.etienne.client.store.controller;
 
 import com.etienne.client.store.model.domain.Client;
-import com.etienne.client.store.model.stats.CountPerDate;
-import com.etienne.client.store.repository.ClientRepository;
 import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
+import com.etienne.client.store.model.stats.CountPerDate;
+import com.etienne.client.store.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +18,7 @@ import static java.util.Collections.sort;
 import static org.springframework.data.domain.PageRequest.of;
 import static org.springframework.http.HttpStatus.CREATED;
 
-@Controller
+@RestController
 @RequestMapping(path = "/clients")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @CrossOrigin(origins = "http://localhost:4200")
@@ -28,8 +27,7 @@ public class ClientController {
     private final ClientRepository clientRepository;
 
     @GetMapping(path = "/id")
-    public @ResponseBody
-    Client getClientById(String id) throws Exception {
+    public Client getClientById(String id) throws Exception {
         return clientRepository.findById(id)
                 .map(client -> {
                     sort(client.getVisits());
@@ -39,13 +37,9 @@ public class ClientController {
     }
 
     @GetMapping(path = "/ping")
-    public @ResponseBody
-    String ping() {
-        return "hello";
-    }
+    public void ping() {}
 
     @PostMapping(path = "/new")
-    @ResponseBody
     @ResponseStatus(CREATED)
     public Client addClient(@RequestBody Client client) {
         Client resultClient = clientRepository.save(client);
@@ -54,19 +48,16 @@ public class ClientController {
     }
 
     @GetMapping()
-    public @ResponseBody
-    List<Client> getAllClients() {
+    public List<Client> getAllClients() {
         return clientRepository.findAll();
     }
 
     @GetMapping("/visit-count-last-10-days")
-    public @ResponseBody
-    List<CountPerDate> getVisitCountForLast10Days() {
+    public List<CountPerDate> getVisitCountForLast10Days() {
         return clientRepository.findVisitCountForLast10Days();
     }
 
     @GetMapping(path = "/filter")
-    @ResponseBody
     public Page<Client> filterClients(Client filter,
                                       SortingParams sortingParams,
                                       PagingParams pagingParams) {
@@ -78,7 +69,6 @@ public class ClientController {
     }
 
     @DeleteMapping(path = "/{id}")
-    @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteClient(@PathVariable("id") String id) {
         clientRepository.deleteById(id);
