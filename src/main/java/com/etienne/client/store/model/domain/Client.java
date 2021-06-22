@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Document
@@ -15,15 +15,17 @@ public class Client {
     @Id
     private String id;
     private String name;
-    private Date dob;
+    private LocalDate dob;
+    private Integer age;
     private String tel;
     private String email;
     private List<Visit> visits;
 
-    public Client(String name, Date dob, String tel,
+    public Client(String name, LocalDate dob, Integer age, String tel,
                   String email, List<Visit> visits) {
         this.name = name;
         this.dob = dob;
+        this.age = age;
         this.tel = tel;
         this.email = email;
         this.visits = visits;

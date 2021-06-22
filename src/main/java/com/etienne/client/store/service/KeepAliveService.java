@@ -9,21 +9,21 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
-public class RestService {
+public class KeepAliveService {
 
     @Value("${client.store.address}")
     private String address;
 
     private final RestTemplate restTemplate;
 
-    public RestService(RestTemplateBuilder restTemplateBuilder) {
+    public KeepAliveService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
     @Scheduled(cron = "${client.store.cron.keep.alive}")
     public void ping() {
-        log.info("Keep-alive ping: calling " + address + "/ping");
-        restTemplate.getForObject(address + "/ping", String.class);
+        log.info("Keep-alive ping: calling " + address + "/keep-alive");
+        restTemplate.getForObject(address + "/keep-alive", String.class);
     }
 
 }

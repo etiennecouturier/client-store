@@ -7,40 +7,45 @@ import com.etienne.client.store.model.domain.Eye;
 import com.etienne.client.store.model.domain.Visit;
 import com.etienne.client.store.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
+import static java.time.LocalDate.parse;
+import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.Objects.requireNonNull;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DataMaintenanceService {
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    private static final DateTimeFormatter dtf = ofPattern("yyyy/MM/dd");
 
     private final ClientRepository clientRepository;
 
+    private final AgeService ageService;
+
     public void reloadData() {
         clientRepository.deleteAll();
-        importData("clients.csv").forEach(clientRepository::save);
-        clientRepository.findAll().forEach(client -> System.out.println("saving " + client.toString()));
+        importData().forEach(clientRepository::save);
+        clientRepository.findAll().forEach(client -> log.info("saving " + client.toString()));
     }
 
-    private List<Client> importData(String fileName) {
+    private List<Client> importData() {
         List<Client> clients = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                requireNonNull(MainApplication.class.getResourceAsStream("/" + fileName))))) {
+                requireNonNull(MainApplication.class.getResourceAsStream("/clients.csv"))))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] p = line.split(",", -1);
@@ -62,7 +67,8 @@ public class DataMaintenanceService {
                                 ""
                         ), "");
                 visits.add(visit);
-                Client client = new Client(p[0], parseDate(p[2]), p[7].isEmpty() ? p[7] : "06" + p[7], p[8], visits);
+                LocalDate dob = parseDate(p[2]);
+                Client client = new Client(p[0], dob, ageService.calculateAge(dob), p[7].isEmpty() ? p[7] : "06" + p[7], p[8], visits);
                 clients.add(client);
             }
         } catch (IOException e) {
@@ -75,13 +81,8 @@ public class DataMaintenanceService {
         return "".equals(d) ? null : parseDouble(d);
     }
 
-    private Date parseDate(String strDate) {
-        try {
-            return "".equals(strDate) ? null : sdf.parse(strDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private LocalDate parseDate(String strDate) {
+        return "".equals(strDate) ? null : parse(strDate, dtf);
     }
 
 }

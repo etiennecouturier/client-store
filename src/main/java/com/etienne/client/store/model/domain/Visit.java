@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Visit implements Comparable<Visit> {
 
-    private Date date;
+    private LocalDate date;
     private Exam historicExam;
     private Exam exam;
     private Exam contactLenseExam;
