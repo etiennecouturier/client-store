@@ -4,6 +4,7 @@ import com.etienne.client.store.model.exception.ClientNotFoundException;
 import com.etienne.client.store.model.domain.Client;
 import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
+import com.etienne.client.store.model.stats.CountPerAge;
 import com.etienne.client.store.model.stats.CountPerDate;
 import com.etienne.client.store.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,10 @@ public class ClientService {
 
     public List<CountPerDate> getVisitCountForLast10Days() {
         return clientRepository.findVisitCountForLast10Days();
+    }
+
+    public List<CountPerAge> getVisitorCountPerAge() {
+        return clientRepository.findVisitorCountPerAge();
     }
 
 }

@@ -3,6 +3,7 @@ package com.etienne.client.store.controller;
 import com.etienne.client.store.model.domain.Client;
 import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
+import com.etienne.client.store.model.stats.CountPerAge;
 import com.etienne.client.store.model.stats.CountPerDate;
 import com.etienne.client.store.service.ClientService;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,11 @@ public class ClientController {
     @GetMapping("/visit-count-last-10-days")
     public List<CountPerDate> getVisitCountForLast10Days() {
         return clientService.getVisitCountForLast10Days();
+    }
+
+    @GetMapping("/visitor-count-age")
+    public List<CountPerAge> findVisitorCountPerAge() {
+        return clientService.getVisitorCountPerAge();
     }
 
 }

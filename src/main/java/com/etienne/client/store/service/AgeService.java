@@ -13,7 +13,7 @@ public class AgeService {
 
     public int calculateAge(LocalDate birthDate) {
         return ofNullable(birthDate)
-                .map(date -> between(date, now()).getYears())
+                .map(dob -> between(dob, now()).getYears())
                 .orElse(0);
     }
 
