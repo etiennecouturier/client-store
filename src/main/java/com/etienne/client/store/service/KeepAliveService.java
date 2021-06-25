@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class KeepAliveService {
 
-    @Value("${client.store.address}")
+    @Value("${client.store.server.address}")
     private String address;
 
     private final RestTemplate restTemplate;
@@ -20,7 +20,8 @@ public class KeepAliveService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    @Scheduled(cron = "${client.store.cron.keep.alive}")
+    @Scheduled(cron = "${client.store.keep.alive.cron}",
+               zone = "${client.store.keep.alive.zone}")
     public void ping() {
         log.info("Keep-alive ping: calling " + address + "/keep-alive");
         restTemplate.getForObject(address + "/keep-alive", String.class);
