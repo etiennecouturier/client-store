@@ -10,9 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class NameSex {
     @Id
-    private String lastName;
-    private Sex sex;
+    private String name;
+    private String sex;
 }
-
-enum Sex {MALE, FEMALE}
 

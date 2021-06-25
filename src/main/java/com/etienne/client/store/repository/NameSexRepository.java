@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface NameSexRepository extends MongoRepository<NameSex, String> {
 
-//    Sex
+    NameSex findSexByName (String name);
 
 }
