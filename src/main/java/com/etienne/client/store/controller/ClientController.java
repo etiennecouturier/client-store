@@ -7,6 +7,7 @@ import com.etienne.client.store.model.stats.CountPerAge;
 import com.etienne.client.store.model.stats.CountPerDate;
 import com.etienne.client.store.service.ClientService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "/clients")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
