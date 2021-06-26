@@ -1,11 +1,9 @@
 package com.etienne.client.store.service;
 
 import com.etienne.client.store.MainApplication;
-import com.etienne.client.store.model.domain.Client;
-import com.etienne.client.store.model.domain.Exam;
-import com.etienne.client.store.model.domain.Eye;
-import com.etienne.client.store.model.domain.Visit;
+import com.etienne.client.store.model.domain.*;
 import com.etienne.client.store.repository.ClientRepository;
+import com.etienne.client.store.repository.NameSexRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +31,37 @@ public class DataMaintenanceService {
 
     private final ClientRepository clientRepository;
 
+    private final NameSexRepository nameSexRepository;
+
     private final AgeService ageService;
+
+    private final NameSexService nameSexService;
 
     public void reloadData() {
         clientRepository.deleteAll();
-        importData().forEach(clientRepository::save);
+        importNamesWithSex().forEach(nameSexRepository::save);
+        importClients().forEach(clientRepository::save);
+        nameSexRepository.findAll().forEach(nameSex -> log.info("saving " + nameSex.toString()));
         clientRepository.findAll().forEach(client -> log.info("saving " + client.toString()));
     }
 
-    private List<Client> importData() {
+    private List<NameSex> importNamesWithSex() {
+        List<NameSex> nameSexes = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                requireNonNull(MainApplication.class.getResourceAsStream("/names_sexes.csv"))))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] p = line.split(",", -1);
+                nameSexes.add(new NameSex(p[0], p[1]));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return nameSexes;
+    }
+
+    private List<Client> importClients() {
         List<Client> clients = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -69,6 +89,7 @@ public class DataMaintenanceService {
                 visits.add(visit);
                 LocalDate dob = parseDate(p[2]);
                 Client client = new Client(p[0], dob, ageService.calculateAge(dob), p[7].isEmpty() ? p[7] : "06" + p[7], p[8], visits);
+                nameSexService.enrichClientWithSex(client);
                 clients.add(client);
             }
         } catch (IOException e) {

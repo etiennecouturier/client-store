@@ -17,17 +17,22 @@ public class Client {
     private String name;
     private LocalDate dob;
     private Integer age;
+    private String sex;
     private String tel;
     private String email;
     private List<Visit> visits;
 
-    public Client(String name, LocalDate dob, Integer age, String tel,
-                  String email, List<Visit> visits) {
+    public Client(String name, LocalDate dob, Integer age,
+                  String tel, String email, List<Visit> visits) {
         this.name = name;
         this.dob = dob;
         this.age = age;
         this.tel = tel;
         this.email = email;
         this.visits = visits;
+    }
+
+    public String getFirstName() {
+        return name.substring(name.lastIndexOf(" ") + 1);
     }
 }
