@@ -19,4 +19,9 @@ public class DataMaintenanceController {
         dataMaintenanceService.reloadData();
     }
 
+    @GetMapping("/delete-all-data")
+    public void deleteAllData() {
+        dataMaintenanceService.deleteAllData();
+    }
+
 }

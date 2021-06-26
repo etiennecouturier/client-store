@@ -37,7 +37,13 @@ public class DataMaintenanceService {
 
     private final NameSexService nameSexService;
 
+    public void deleteAllData() {
+        nameSexRepository.deleteAll();
+        clientRepository.deleteAll();
+    }
+
     public void reloadData() {
+        nameSexRepository.deleteAll();
         clientRepository.deleteAll();
         importNamesWithSex().forEach(nameSexRepository::save);
         importClients().forEach(clientRepository::save);
