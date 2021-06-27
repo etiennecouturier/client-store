@@ -6,6 +6,7 @@ import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
 import com.etienne.client.store.model.stats.CountPerAge;
 import com.etienne.client.store.model.stats.CountPerDate;
+import com.etienne.client.store.model.stats.CountPerSex;
 import com.etienne.client.store.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,11 @@ public class ClientController {
     @GetMapping("/visitor-count-age")
     public List<CountPerAge> findVisitorCountPerAge() {
         return clientService.getVisitorCountPerAge();
+    }
+
+    @GetMapping("/visitor-count-sex")
+    public List<CountPerSex> findVisitorCountPerSex() {
+        return clientService.getVisitorCountPerSex();
     }
 
 }

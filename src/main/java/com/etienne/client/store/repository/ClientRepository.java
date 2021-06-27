@@ -3,6 +3,7 @@ package com.etienne.client.store.repository;
 import com.etienne.client.store.model.domain.Client;
 import com.etienne.client.store.model.stats.CountPerAge;
 import com.etienne.client.store.model.stats.CountPerDate;
+import com.etienne.client.store.model.stats.CountPerSex;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -52,5 +53,11 @@ public interface ClientRepository extends MongoRepository<Client, String> {
             "{ $project: { _id: 0, range: $_id, count: 1 }}",
     })
     List<CountPerAge> findVisitorCountPerAge();
+
+    @Aggregation(pipeline = {
+            "{ $group : {_id: '$sex', count: { $sum: 1 }}}",
+            "{ $project: { _id: 0, sex: $_id, count: 1 }}"
+    })
+    List<CountPerSex> findVisitorCountPerSex();
 
 }
