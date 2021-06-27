@@ -56,6 +56,7 @@ public interface ClientRepository extends MongoRepository<Client, String> {
 
     @Aggregation(pipeline = {
             "{ $group : {_id: '$sex', count: { $sum: 1 }}}",
+            "{ $sort: { _id : 1 } }",
             "{ $project: { _id: 0, sex: $_id, count: 1 }}"
     })
     List<CountPerSex> findVisitorCountPerSex();
