@@ -26,6 +26,8 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
 
+    private final NameSexService nameSexService;
+
     public Page<Client> filterClients(Client filter,
                                       SortingParams sortingParams,
                                       PagingParams pagingParams) {
@@ -48,6 +50,7 @@ public class ClientService {
 
     public Client addClient(Client client) {
         log.info("adding client: " + client);
+        nameSexService.enrichClientWithSex(client);
         Client resultClient = clientRepository.save(client);
         sort(resultClient.getVisits());
         return resultClient;
