@@ -16,19 +16,15 @@ public class NameSexService {
     public String findSexByName(String name) {
         return nameSexRepository.findSexByName(name)
                 .map(NameSex::getSex)
-                .orElse(findMarriedName(name));
+                .orElse(decideMarriedName(name));
     }
 
     void enrichClientWithSex(Client client) {
         client.setSex(findSexByName(client.getFirstName()));
     }
 
-    private String findMarriedName(String name) {
-        return name.endsWith("né") ?
-                nameSexRepository.findSexByName(name.substring(0, name.length() - 2))
-                        .map(ns -> "F")
-                        .orElse("N")
-                : "N";
+    private String decideMarriedName(String name) {
+        return name.endsWith("né") ? "F" : "N";
     }
 
 }
