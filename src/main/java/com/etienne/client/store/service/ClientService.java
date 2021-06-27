@@ -1,7 +1,7 @@
 package com.etienne.client.store.service;
 
-import com.etienne.client.store.model.exception.ClientNotFoundException;
 import com.etienne.client.store.model.domain.Client;
+import com.etienne.client.store.model.exception.ClientNotFoundException;
 import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
 import com.etienne.client.store.model.stats.CountPerAge;
@@ -14,16 +14,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.etienne.client.store.repository.ClientExample.clientExample;
 import static java.util.Collections.sort;
+import static java.util.stream.Collectors.toList;
 import static org.springframework.data.domain.PageRequest.of;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ClientService {
+
+    private static final Map<String, String> sex = new HashMap<>();
+
+    static {
+        sex.put("M", "Férfiak");
+        sex.put("F", "Nők");
+        sex.put("N", "Nem ismert");
+    }
 
     private final ClientRepository clientRepository;
 
@@ -74,7 +85,9 @@ public class ClientService {
 
     public List<CountPerSex> getVisitorCountPerSex() {
         log.info("calculating number of visitors based on their sex");
-        return clientRepository.findVisitorCountPerSex();
+        return clientRepository.findVisitorCountPerSex()
+                .stream()
+                .peek(e -> e.setSex(sex.get(e.getSex()))).collect(toList());
     }
 
 }
