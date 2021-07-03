@@ -16,6 +16,7 @@ public class Visit implements Comparable<Visit> {
     private Exam exam;
     private Exam contactLenseExam;
     private String shoppingNotes;
+    private Fees fees;
 
     @Override
     public int compareTo(Visit visit) {
