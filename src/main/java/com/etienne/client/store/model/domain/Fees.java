@@ -15,5 +15,7 @@ public class Fees {
     private Double service;
     private Double exam;
     private Double other;
+    private Double discount;
+    private Double paid;
 
 }
