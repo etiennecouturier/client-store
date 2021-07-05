@@ -1,6 +1,7 @@
 package com.etienne.client.store.service;
 
 import com.etienne.client.store.model.domain.Client;
+import com.etienne.client.store.model.domain.ClientVisit;
 import com.etienne.client.store.model.exception.ClientNotFoundException;
 import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
@@ -57,6 +58,11 @@ public class ClientService {
     public void deleteClient(String id) {
         log.info("deleting client: " + id);
         clientRepository.deleteById(id);
+    }
+
+    public ClientVisit findClientWithVisit() {
+        log.info("find client by visit");
+        return clientRepository.findClientWithVisit("");
     }
 
 //    must be done manually

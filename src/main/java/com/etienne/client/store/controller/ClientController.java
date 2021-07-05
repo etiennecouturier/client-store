@@ -1,6 +1,7 @@
 package com.etienne.client.store.controller;
 
 import com.etienne.client.store.model.domain.Client;
+import com.etienne.client.store.model.domain.ClientVisit;
 import com.etienne.client.store.model.exception.ClientNotFoundException;
 import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
@@ -43,6 +44,11 @@ public class ClientController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteClient(@PathVariable String id) {
         clientService.deleteClient(id);
+    }
+
+    @GetMapping(path = "/visit")
+    public ClientVisit findClientWithVisit() {
+        return clientService.findClientWithVisit();
     }
 
 }
