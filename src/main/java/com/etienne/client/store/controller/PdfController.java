@@ -5,12 +5,13 @@ import com.etienne.client.store.service.PdfService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 
 @RestController
 @RequestMapping(path = "/pdf")
@@ -25,7 +26,7 @@ public class PdfController {
         return pdfService.findFields();
     }
 
-    @GetMapping(path = "/download/{clientId}", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(path = "/download/{clientId}", produces = APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> downloadPdf(@PathVariable String clientId) throws IOException, ClientNotFoundException {
         return ResponseEntity
                 .ok()

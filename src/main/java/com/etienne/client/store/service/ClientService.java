@@ -4,37 +4,22 @@ import com.etienne.client.store.model.domain.Client;
 import com.etienne.client.store.model.exception.ClientNotFoundException;
 import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
-import com.etienne.client.store.model.stats.CountPerAge;
-import com.etienne.client.store.model.stats.CountPerDate;
-import com.etienne.client.store.model.stats.CountPerSex;
 import com.etienne.client.store.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static com.etienne.client.store.repository.ClientExample.clientExample;
 import static java.util.Collections.sort;
-import static java.util.stream.Collectors.toList;
 import static org.springframework.data.domain.PageRequest.of;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ClientService {
-
-    private static final Map<String, String> sex = new HashMap<>();
-
-    static {
-        sex.put("M", "Férfiak");
-        sex.put("F", "Nők");
-        sex.put("N", "Nem ismert");
-    }
 
     private final ClientRepository clientRepository;
 
@@ -50,7 +35,7 @@ public class ClientService {
         );
     }
 
-    public Client getClientById(String id) throws ClientNotFoundException {
+    public Client findClientById(String id) throws ClientNotFoundException {
         log.info("find client by id: " + id);
         return clientRepository.findById(id)
                 .map(client -> {
@@ -60,9 +45,10 @@ public class ClientService {
                 .orElseThrow(() -> new ClientNotFoundException("Client not found"));
     }
 
-    public Client addClient(Client client) {
+    public Client saveClient(Client client) {
         log.info("adding client: " + client);
         nameSexService.enrichClientWithSex(client);
+        generateIdForNewVisit(client);
         Client resultClient = clientRepository.save(client);
         sort(resultClient.getVisits());
         return resultClient;
@@ -73,21 +59,13 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
-    public List<CountPerDate> getVisitCountForLast10Days() {
-        log.info("calculating number of visits for last 10 days");
-        return clientRepository.findVisitCountForLast10Days();
-    }
-
-    public List<CountPerAge> getVisitorCountPerAge() {
-        log.info("calculating number of visitors for age categories");
-        return clientRepository.findVisitorCountPerAge();
-    }
-
-    public List<CountPerSex> getVisitorCountPerSex() {
-        log.info("calculating number of visitors based on their sex");
-        return clientRepository.findVisitorCountPerSex()
+//    must be done manually
+//    mongo only generates id for top level document
+    private void generateIdForNewVisit(Client client) {
+        client.getVisits()
                 .stream()
-                .peek(e -> e.setSex(sex.get(e.getSex()))).collect(toList());
+                .filter(visit -> visit.getId() == null)
+                .forEach(visit -> visit.setId(new ObjectId().toString()));
     }
 
 }

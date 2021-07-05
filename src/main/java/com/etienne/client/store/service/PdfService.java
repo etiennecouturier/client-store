@@ -36,7 +36,7 @@ public class PdfService {
     }
 
     public ByteArrayInputStream downloadPdf(String clientId) throws ClientNotFoundException, IOException {
-        Client client = clientService.getClientById(clientId);
+        Client client = clientService.findClientById(clientId);
         PDDocument pdf = load(PdfService.class.getResourceAsStream("/form.pdf"));
         PDAcroForm form = pdf
                 .getDocumentCatalog()
