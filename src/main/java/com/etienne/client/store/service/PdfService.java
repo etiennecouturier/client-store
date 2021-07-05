@@ -3,15 +3,16 @@ package com.etienne.client.store.service;
 import com.etienne.client.store.model.domain.ClientVisit;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDResources;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
+import org.apache.pdfbox.pdmodel.interactive.form.PDTextField;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 import static java.util.Spliterator.ORDERED;
@@ -37,7 +38,20 @@ public class PdfService {
 
     public ByteArrayInputStream downloadPdf(ObjectId visitId) throws IOException {
         ClientVisit client = clientService.findClientWithVisit(visitId);
+
         PDDocument pdf = load(PdfService.class.getResourceAsStream("/form.pdf"));
+        PDType0Font font = PDType0Font.load(pdf, PdfService.class.getResourceAsStream("/fonts/Calibri-Light.ttf"), true);
+        PDResources res = pdf.getDocumentCatalog().getAcroForm().getDefaultResources();
+        String fontName = res.add(font).getName();
+//        https://github.com/Valuya/fontbox/blob/master/examples/src/main/java/org/apache/pdfbox/examples/interactive/form/CreateSimpleFormWithEmbeddedFont.java
+        String defaultAppearanceString = "/" + fontName + " 0 Tf 0 g";
+
+        stream(spliteratorUnknownSize(
+                pdf.getDocumentCatalog().getAcroForm()
+                        .getFieldTree()
+                        .iterator(), ORDERED), false)
+                .forEach(pdField -> ((PDTextField) (pdField)).setDefaultAppearance(defaultAppearanceString));
+
         PDAcroForm form = pdf.getDocumentCatalog().getAcroForm();
         form.getField("name").setValue(client.getName());
         form.getField("tel").setValue(client.getTel());
@@ -47,9 +61,9 @@ public class PdfService {
         form.getField("rightAxs").setValue(toStr(client.getVisit().getExam().getRightEye().getFok()));
         form.getField("rightAdd").setValue(toStr(client.getVisit().getExam().getRightEye().getVizus()));
         form.getField("leftSph").setValue(toStr(client.getVisit().getExam().getLeftEye().getDioptria()));
-        form.getField("leftCyl").setValue(toStr(client.getVisit().getExam().getLeftEye().getDioptria()));
-        form.getField("leftAxs").setValue(toStr(client.getVisit().getExam().getLeftEye().getDioptria()));
-        form.getField("leftAdd").setValue(toStr(client.getVisit().getExam().getLeftEye().getDioptria()));
+        form.getField("leftCyl").setValue(toStr(client.getVisit().getExam().getLeftEye().getCilinder()));
+        form.getField("leftAxs").setValue(toStr(client.getVisit().getExam().getLeftEye().getFok()));
+        form.getField("leftAdd").setValue(toStr(client.getVisit().getExam().getLeftEye().getVizus()));
         form.getField("frame").setValue(toStr(client.getVisit().getFees().getFrame()));
         form.getField("rightLense").setValue(toStr(client.getVisit().getFees().getRightLense()));
         form.getField("leftLense").setValue(toStr(client.getVisit().getFees().getLeftLense()));
