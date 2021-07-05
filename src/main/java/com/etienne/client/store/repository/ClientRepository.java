@@ -10,7 +10,8 @@ public interface ClientRepository extends MongoRepository<Client, String> {
 
     @Aggregation(pipeline = {
             "{ $unwind : '$visits'}",
-            "{ $match : { 'visits._id' : ?0}}"
+            "{ $match : { 'visits._id' : ?0}}",
+            "{ $project: { name : 1, tel : 1, visit : $visits }}"
     })
     ClientVisit findClientWithVisit(ObjectId visitId);
 
