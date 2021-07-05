@@ -7,6 +7,7 @@ import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
 import com.etienne.client.store.service.ClientService;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -46,9 +47,9 @@ public class ClientController {
         clientService.deleteClient(id);
     }
 
-    @GetMapping(path = "/visit")
-    public ClientVisit findClientWithVisit() {
-        return clientService.findClientWithVisit();
+    @GetMapping(path = "/visit/{visitId}")
+    public ClientVisit findClientWithVisit(@PathVariable ObjectId visitId) {
+        return clientService.findClientWithVisit(visitId);
     }
 
 }
