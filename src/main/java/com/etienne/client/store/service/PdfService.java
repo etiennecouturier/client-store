@@ -19,6 +19,8 @@ import java.io.IOException;
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static java.util.stream.StreamSupport.stream;
+import static org.apache.pdfbox.Loader.loadPDF;
+import static org.apache.pdfbox.pdmodel.font.PDType0Font.load;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -29,9 +31,9 @@ public class PdfService {
     public ByteArrayInputStream downloadPdf(ObjectId visitId) throws IOException {
         ClientVisit client = clientService.findClientWithVisit(visitId);
 
-        PDDocument pdf = Loader.loadPDF(PdfService.class.getResourceAsStream("/form.pdf"));
+        PDDocument pdf = loadPDF(PdfService.class.getResourceAsStream("/form.pdf"));
 
-        PDType0Font font = PDType0Font.load(pdf, PdfService.class.getResourceAsStream("/fonts/Helvetica.ttf"), false);
+        PDType0Font font = load(pdf, PdfService.class.getResourceAsStream("/fonts/Helvetica-BoldOblique.ttf"), false);
         PDResources res = pdf.getDocumentCatalog().getAcroForm().getDefaultResources();
         String fontName = res.add(font).getName();
 //        https://github.com/Valuya/fontbox/blob/master/examples/src/main/java/org/apache/pdfbox/examples/interactive/form/CreateSimpleFormWithEmbeddedFont.java
