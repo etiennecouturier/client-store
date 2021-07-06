@@ -35,7 +35,7 @@ public class PdfService {
         PDResources res = pdf.getDocumentCatalog().getAcroForm().getDefaultResources();
         String fontName = res.add(font).getName();
 //        https://github.com/Valuya/fontbox/blob/master/examples/src/main/java/org/apache/pdfbox/examples/interactive/form/CreateSimpleFormWithEmbeddedFont.java
-        String defaultAppearanceString = "/" + fontName + " 0 Tf 0 g";
+        String defaultAppearanceString = "/" + fontName + " 11 Tf 0 g";
 
         stream(spliteratorUnknownSize(
                 pdf.getDocumentCatalog().getAcroForm()
