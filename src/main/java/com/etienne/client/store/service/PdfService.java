@@ -2,9 +2,7 @@ package com.etienne.client.store.service;
 
 import com.etienne.client.store.model.domain.ClientVisit;
 import lombok.RequiredArgsConstructor;
-import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDResources;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDTextField;
@@ -28,16 +26,16 @@ public class PdfService {
 
     private final ClientService clientService;
 
+    /**
+     * https://github.com/Valuya/fontbox/blob/master/examples/src/main/java/org/apache/pdfbox/examples/interactive/form/CreateSimpleFormWithEmbeddedFont.java
+     */
     public ByteArrayInputStream downloadPdf(ObjectId visitId) throws IOException {
         ClientVisit client = clientService.findClientWithVisit(visitId);
 
         PDDocument pdf = loadPDF(PdfService.class.getResourceAsStream("/form.pdf"));
-
+        PDAcroForm form = pdf.getDocumentCatalog().getAcroForm();
         PDType0Font font = load(pdf, PdfService.class.getResourceAsStream("/fonts/Helvetica-BoldOblique.ttf"), false);
-        PDResources res = pdf.getDocumentCatalog().getAcroForm().getDefaultResources();
-        String fontName = res.add(font).getName();
-//        https://github.com/Valuya/fontbox/blob/master/examples/src/main/java/org/apache/pdfbox/examples/interactive/form/CreateSimpleFormWithEmbeddedFont.java
-        String defaultAppearanceString = "/" + fontName + " 11 Tf 0 g";
+        String defaultAppearanceString = "/" + form.getDefaultResources().add(font).getName() + " 11 Tf 0 g";
 
         stream(spliteratorUnknownSize(
                 pdf.getDocumentCatalog().getAcroForm()
@@ -45,7 +43,6 @@ public class PdfService {
                         .iterator(), ORDERED), false)
                 .forEach(pdField -> ((PDTextField) (pdField)).setDefaultAppearance(defaultAppearanceString));
 
-        PDAcroForm form = pdf.getDocumentCatalog().getAcroForm();
         form.getField("name").setValue(client.getName());
         form.getField("tel").setValue(client.getTel());
         form.getField("date").setValue(toStr(client.getVisit().getDate()));
@@ -63,6 +60,7 @@ public class PdfService {
         form.getField("service").setValue(toStr(client.getVisit().getFees().getService()));
         form.getField("exam").setValue(toStr(client.getVisit().getFees().getExam()));
         form.getField("other").setValue(toStr(client.getVisit().getFees().getOther()));
+        form.getField("total").setValue(toStr(client.getVisit().getFees().getTotal()));
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         pdf.save(out);

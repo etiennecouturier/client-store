@@ -15,7 +15,10 @@ public class Fees {
     private Double service;
     private Double exam;
     private Double other;
-    private Double discount;
+    private Double discountPercent;
     private Double paid;
+    private Double total;
+    private Double discountAmount;
+    private Double toBePaid;
 
 }
