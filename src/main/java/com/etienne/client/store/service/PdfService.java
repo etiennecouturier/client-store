@@ -30,7 +30,8 @@ public class PdfService {
         ClientVisit client = clientService.findClientWithVisit(visitId);
 
         PDDocument pdf = Loader.loadPDF(PdfService.class.getResourceAsStream("/form.pdf"));
-        PDType0Font font = PDType0Font.load(pdf, PdfService.class.getResourceAsStream("/fonts/Calibri-Light.ttf"), true);
+
+        PDType0Font font = PDType0Font.load(pdf, PdfService.class.getResourceAsStream("/fonts/Helvetica.ttf"), false);
         PDResources res = pdf.getDocumentCatalog().getAcroForm().getDefaultResources();
         String fontName = res.add(font).getName();
 //        https://github.com/Valuya/fontbox/blob/master/examples/src/main/java/org/apache/pdfbox/examples/interactive/form/CreateSimpleFormWithEmbeddedFont.java
