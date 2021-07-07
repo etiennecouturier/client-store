@@ -8,6 +8,7 @@ import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDTextField;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -27,22 +28,29 @@ public class PdfService {
     private final ClientService clientService;
 
     /**
+     * for font related infos:
      * https://github.com/Valuya/fontbox/blob/master/examples/src/main/java/org/apache/pdfbox/examples/interactive/form/CreateSimpleFormWithEmbeddedFont.java
      */
-    public ByteArrayInputStream downloadPdf(ObjectId visitId) throws IOException {
+    public InputStreamResource downloadPdf(ObjectId visitId) throws IOException {
         ClientVisit client = clientService.findClientWithVisit(visitId);
-
         PDDocument pdf = loadPDF(PdfService.class.getResourceAsStream("/form.pdf"));
-        PDAcroForm form = pdf.getDocumentCatalog().getAcroForm();
-        PDType0Font font = load(pdf, PdfService.class.getResourceAsStream("/fonts/Helvetica-BoldOblique.ttf"), false);
-        String defaultAppearanceString = "/" + form.getDefaultResources().add(font).getName() + " 11 Tf 0 g";
+        setFontForFields(pdf);
+        fillForm(client, pdf);
+        return writeToStream(pdf);
+    }
 
+    private void setFontForFields(PDDocument pdf) throws IOException {
+        PDType0Font font = load(pdf, PdfService.class.getResourceAsStream("/fonts/Helvetica-BoldOblique.ttf"), false);
+        String defaultAppearanceString = "/" + pdf.getDocumentCatalog().getAcroForm().getDefaultResources().add(font).getName() + " 11 Tf 0 g";
         stream(spliteratorUnknownSize(
                 pdf.getDocumentCatalog().getAcroForm()
                         .getFieldTree()
                         .iterator(), ORDERED), false)
                 .forEach(pdField -> ((PDTextField) (pdField)).setDefaultAppearance(defaultAppearanceString));
+    }
 
+    private void fillForm(ClientVisit client, PDDocument pdf) throws IOException {
+        PDAcroForm form = pdf.getDocumentCatalog().getAcroForm();
         form.getField("name").setValue(client.getName());
         form.getField("tel").setValue(client.getTel());
         form.getField("date").setValue(toStr(client.getVisit().getDate()));
@@ -61,13 +69,15 @@ public class PdfService {
         form.getField("exam").setValue(toStr(client.getVisit().getFees().getExam()));
         form.getField("other").setValue(toStr(client.getVisit().getFees().getOther()));
         form.getField("total").setValue(toStr(client.getVisit().getFees().getTotal()));
+    }
 
+    private InputStreamResource writeToStream(PDDocument pdf) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         pdf.save(out);
         pdf.close();
-        return new ByteArrayInputStream(out.toByteArray());
+        return new InputStreamResource(new ByteArrayInputStream(out.toByteArray()));
     }
-    
+
     private <T> String toStr(T obj) {
         return obj == null ? "" : obj.toString();
     }

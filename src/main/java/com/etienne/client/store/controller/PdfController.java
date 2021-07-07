@@ -25,9 +25,7 @@ public class PdfController {
     public ResponseEntity<InputStreamResource> downloadPdf(@PathVariable ObjectId visitId) throws IOException {
         return ResponseEntity
                 .ok()
-                .body(new InputStreamResource(
-                        pdfService.downloadPdf(visitId)
-                ));
+                .body(pdfService.downloadPdf(visitId));
     }
 
 }
