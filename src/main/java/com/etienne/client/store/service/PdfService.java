@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static java.util.stream.StreamSupport.stream;
@@ -41,7 +42,7 @@ public class PdfService {
 
     private void setFontForFields(PDDocument pdf) throws IOException {
         PDType0Font font = load(pdf, PdfService.class.getResourceAsStream("/fonts/Helvetica-BoldOblique.ttf"), false);
-        String defaultAppearanceString = "/" + pdf.getDocumentCatalog().getAcroForm().getDefaultResources().add(font).getName() + " 11 Tf 0 g";
+        String defaultAppearanceString = "/" + pdf.getDocumentCatalog().getAcroForm().getDefaultResources().add(font).getName() + " 9 Tf 0 g";
         stream(spliteratorUnknownSize(
                 pdf.getDocumentCatalog().getAcroForm()
                         .getFieldTree()
@@ -53,7 +54,7 @@ public class PdfService {
         PDAcroForm form = pdf.getDocumentCatalog().getAcroForm();
         form.getField("name").setValue(client.getName());
         form.getField("tel").setValue(client.getTel());
-        form.getField("date").setValue(toStr(client.getVisit().getDate()));
+        form.getField("date").setValue(toStr(client.getVisit().getDate().format(ofPattern("yyyy.MM.dd"))));
         form.getField("rightSph").setValue(toStr(client.getVisit().getExam().getRightEye().getDioptria()));
         form.getField("rightCyl").setValue(toStr(client.getVisit().getExam().getRightEye().getCilinder()));
         form.getField("rightAxs").setValue(toStr(client.getVisit().getExam().getRightEye().getFok()));
