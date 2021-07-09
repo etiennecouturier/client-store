@@ -9,16 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Fees {
 
-    private Double frame;
-    private Double rightLense;
-    private Double leftLense;
-    private Double service;
-    private Double exam;
-    private Double other;
-    private Double discountPercent;
-    private Double paid;
-    private Double total;
-    private Double discountAmount;
-    private Double toBePaid;
+    private Integer frame;
+    private Integer rightLense;
+    private Integer leftLense;
+    private Integer service;
+    private Integer exam;
+    private Integer other;
+    private Integer discountPercent;
+    private Integer paid;
+    private Integer total;
+    private Integer discountAmount;
+    private Integer toBePaid;
 
 }
