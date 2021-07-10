@@ -14,5 +14,8 @@ public class Eye {
     private Double fok;
     private Double vizus;
     private Double szaruGorbulet;
+    private Double add;
+    private Double pd;
+    private Double bifoMag;
 
 }

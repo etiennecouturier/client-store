@@ -78,18 +78,18 @@ public class DataMaintenanceService {
                 List<Visit> visits = new ArrayList<>();
                 Visit visit = new Visit(parseDate(p[9]),
                         new Exam(
-                                new Eye(null, null, null, null, null),
-                                new Eye(null, null, null, null, null),
+                                new Eye(null, null, null, null, null, null, null, null),
+                                new Eye(null, null, null, null, null, null, null, null),
                                 ""
                         ),
                         new Exam(
-                                new Eye(parseD(p[10]), parseD(p[11]), parseD(p[12]), parseD(p[13]), null),
-                                new Eye(parseD(p[14]), parseD(p[15]), parseD(p[16]), parseD(p[17]), null),
+                                new Eye(parseD(p[10]), parseD(p[11]), parseD(p[12]), parseD(p[13]), null, null, null, null),
+                                new Eye(parseD(p[14]), parseD(p[15]), parseD(p[16]), parseD(p[17]), null, null, null, null),
                                 p[18]
                         ),
                         new Exam(
-                                new Eye(null, null, null, null, null),
-                                new Eye(null, null, null, null, null),
+                                new Eye(null, null, null, null, null, null, null, null),
+                                new Eye(null, null, null, null, null, null, null, null),
                                 ""
                         ), new Fees(), null, null);
                 visits.add(visit);

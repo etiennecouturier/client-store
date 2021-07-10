@@ -58,11 +58,15 @@ public class PdfService {
         form.getField("rightSph").setValue(toStr(client.getVisit().getExam().getRightEye().getDioptria()));
         form.getField("rightCyl").setValue(toStr(client.getVisit().getExam().getRightEye().getCilinder()));
         form.getField("rightAxs").setValue(toStr(client.getVisit().getExam().getRightEye().getFok()));
-        form.getField("rightAdd").setValue(toStr(client.getVisit().getExam().getRightEye().getVizus()));
+        form.getField("rightAdd").setValue(toStr(client.getVisit().getExam().getRightEye().getAdd()));
+        form.getField("rightPD").setValue(toStr(client.getVisit().getExam().getRightEye().getPd()));
+        form.getField("rightBifoMag").setValue(toStr(client.getVisit().getExam().getRightEye().getBifoMag()));
         form.getField("leftSph").setValue(toStr(client.getVisit().getExam().getLeftEye().getDioptria()));
         form.getField("leftCyl").setValue(toStr(client.getVisit().getExam().getLeftEye().getCilinder()));
         form.getField("leftAxs").setValue(toStr(client.getVisit().getExam().getLeftEye().getFok()));
-        form.getField("leftAdd").setValue(toStr(client.getVisit().getExam().getLeftEye().getVizus()));
+        form.getField("leftAdd").setValue(toStr(client.getVisit().getExam().getLeftEye().getAdd()));
+        form.getField("leftPD").setValue(toStr(client.getVisit().getExam().getLeftEye().getPd()));
+        form.getField("leftBifoMag").setValue(toStr(client.getVisit().getExam().getLeftEye().getBifoMag()));
         form.getField("frameFee").setValue(toStr(client.getVisit().getFees().getFrame()));
         form.getField("rightLense").setValue(toStr(client.getVisit().getFees().getRightLense()));
         form.getField("leftLense").setValue(toStr(client.getVisit().getFees().getLeftLense()));
