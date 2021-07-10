@@ -91,7 +91,7 @@ public class DataMaintenanceService {
                                 new Eye(null, null, null, null, null),
                                 new Eye(null, null, null, null, null),
                                 ""
-                        ), "", new Fees());
+                        ), new Fees(), null, null);
                 visits.add(visit);
                 LocalDate dob = parseDate(p[2]);
                 Client client = new Client(p[0], dob, ageService.calculateAge(dob), p[7].isEmpty() ? p[7] : "06" + p[7], p[8], visits);

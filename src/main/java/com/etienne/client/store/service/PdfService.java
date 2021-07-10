@@ -63,7 +63,7 @@ public class PdfService {
         form.getField("leftCyl").setValue(toStr(client.getVisit().getExam().getLeftEye().getCilinder()));
         form.getField("leftAxs").setValue(toStr(client.getVisit().getExam().getLeftEye().getFok()));
         form.getField("leftAdd").setValue(toStr(client.getVisit().getExam().getLeftEye().getVizus()));
-        form.getField("frame").setValue(toStr(client.getVisit().getFees().getFrame()));
+        form.getField("frameFee").setValue(toStr(client.getVisit().getFees().getFrame()));
         form.getField("rightLense").setValue(toStr(client.getVisit().getFees().getRightLense()));
         form.getField("leftLense").setValue(toStr(client.getVisit().getFees().getLeftLense()));
         form.getField("service").setValue(toStr(client.getVisit().getFees().getService()));
@@ -74,6 +74,8 @@ public class PdfService {
         form.getField("discountAmount").setValue(toStr(client.getVisit().getFees().getDiscountAmount()));
         form.getField("paid").setValue(toStr(client.getVisit().getFees().getPaid()));
         form.getField("toBePaid").setValue(toStr(client.getVisit().getFees().getToBePaid()));
+        form.getField("frame").setValue(toStr(client.getVisit().getFrame()));
+        form.getField("lense").setValue(toStr(client.getVisit().getLense()));
     }
 
     private InputStreamResource writeToStream(PDDocument pdf) throws IOException {
