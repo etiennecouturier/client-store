@@ -18,7 +18,12 @@ public class MailController {
 
     @GetMapping(path = "/send")
     public void downloadPdf() {
-        mailService.sendSimpleMessage("iistvan.szabo2@gmail.com", "hello", "body");
+        mailService.sendMessage("iistvan.szabo2@gmail.com",
+                "rendelés részletei",
+                "Kedves vásárló!\n\n" +
+                        "A mai látogatásának részleteit a csatolt fájl tartalmazza.\n\n" +
+                        "Üdvözlettel,\n" +
+                        "Gyöngyi Optika");
     }
 
 }
