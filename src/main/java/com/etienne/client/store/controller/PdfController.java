@@ -1,9 +1,7 @@
 package com.etienne.client.store.controller;
 
-import com.etienne.client.store.model.exception.ClientNotFoundException;
 import com.etienne.client.store.service.PdfService;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +20,7 @@ public class PdfController {
     private final PdfService pdfService;
 
     @GetMapping(path = "/download/{visitId}", produces = APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> downloadPdf(@PathVariable ObjectId visitId) throws IOException {
+    public ResponseEntity<InputStreamResource> downloadPdf(@PathVariable String visitId) throws IOException {
         return ResponseEntity
                 .ok()
                 .body(pdfService.downloadPdf(visitId));

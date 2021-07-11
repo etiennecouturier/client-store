@@ -60,7 +60,7 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
-    public ClientVisit findClientWithVisit(ObjectId visitId) {
+    public ClientVisit findClientWithVisit(String visitId) {
         log.info("find client by visit");
         return clientRepository.findClientWithVisit(visitId);
     }

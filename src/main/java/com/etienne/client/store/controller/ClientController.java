@@ -48,7 +48,7 @@ public class ClientController {
     }
 
     @GetMapping(path = "/visit/{visitId}")
-    public ClientVisit findClientWithVisit(@PathVariable ObjectId visitId) {
+    public ClientVisit findClientWithVisit(@PathVariable String visitId) {
         return clientService.findClientWithVisit(visitId);
     }
 

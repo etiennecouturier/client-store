@@ -32,7 +32,7 @@ public class PdfService {
      * for font related infos:
      * https://github.com/Valuya/fontbox/blob/master/examples/src/main/java/org/apache/pdfbox/examples/interactive/form/CreateSimpleFormWithEmbeddedFont.java
      */
-    public InputStreamResource downloadPdf(ObjectId visitId) throws IOException {
+    public InputStreamResource downloadPdf(String visitId) throws IOException {
         ClientVisit client = clientService.findClientWithVisit(visitId);
         PDDocument pdf = loadPDF(PdfService.class.getResourceAsStream("/form.pdf"));
         setFontForFields(pdf);

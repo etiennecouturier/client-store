@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+
 @RestController
 @RequestMapping(path = "/mail")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -17,7 +20,7 @@ public class MailController {
     private final MailService mailService;
 
     @GetMapping(path = "/send")
-    public void downloadPdf() {
+    public void downloadPdf() throws IOException, MessagingException {
         mailService.sendMessage("iistvan.szabo2@gmail.com",
                 "rendelés részletei",
                 "Kedves vásárló!\n\n" +
