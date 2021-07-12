@@ -6,14 +6,13 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDTextField;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.Spliterator.ORDERED;
@@ -32,8 +31,12 @@ public class PdfService {
      * for font related infos:
      * https://github.com/Valuya/fontbox/blob/master/examples/src/main/java/org/apache/pdfbox/examples/interactive/form/CreateSimpleFormWithEmbeddedFont.java
      */
-    public InputStreamResource downloadPdf(String visitId) throws IOException {
+    public InputStream downloadPdf(String visitId) throws IOException {
         ClientVisit client = clientService.findClientWithVisit(visitId);
+        return downloadPdf(client);
+    }
+
+    InputStream downloadPdf(ClientVisit client) throws IOException {
         PDDocument pdf = loadPDF(PdfService.class.getResourceAsStream("/form.pdf"));
         setFontForFields(pdf);
         fillForm(client, pdf);
@@ -82,11 +85,11 @@ public class PdfService {
         form.getField("lense").setValue(toStr(client.getVisit().getLense()));
     }
 
-    private InputStreamResource writeToStream(PDDocument pdf) throws IOException {
+    private InputStream writeToStream(PDDocument pdf) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         pdf.save(out);
         pdf.close();
-        return new InputStreamResource(new ByteArrayInputStream(out.toByteArray()));
+        return new ByteArrayInputStream(out.toByteArray());
     }
 
     private <T> String toStr(T obj) {
