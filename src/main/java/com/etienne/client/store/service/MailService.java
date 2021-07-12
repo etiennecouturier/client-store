@@ -32,7 +32,7 @@ public class MailService {
 
     public void sendMessage(String visitId) throws MessagingException, IOException, EMailAddressNotFoundException {
         ClientVisit client = clientService.findClientWithVisit(visitId);
-        if (client.getEmail().isBlank()) throw new EMailAddressNotFoundException();
+        if (client.getEmail().isEmpty()) throw new EMailAddressNotFoundException();
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(client.getEmail());
