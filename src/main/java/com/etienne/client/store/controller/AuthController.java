@@ -23,7 +23,7 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping(path = "/auth")
-    public ResponseEntity<?> filterClients(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<AuthenticationResponse> filterClients(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUserName(), authenticationRequest.getPassword())
