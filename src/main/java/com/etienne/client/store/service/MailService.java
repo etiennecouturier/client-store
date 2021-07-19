@@ -19,7 +19,6 @@ import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
  * gmail setup
  * https://stackoverflow.com/questions/35347269/javax-mail-authenticationfailedexception-535-5-7-8-username-and-password-not-ac
  */
-
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MailService {

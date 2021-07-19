@@ -1,6 +1,5 @@
 package com.etienne.client.store.service;
 
-import com.etienne.client.store.model.auth.OpticsUser;
 import com.etienne.client.store.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +19,9 @@ public class MongoUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        OpticsUser user = userRepository.findByUsername(username)
+        return userRepository.findByUsername(username)
+                .map(user -> new User(user.getUsername(), user.getPassword(), new ArrayList<>()))
                 .orElseThrow(() -> new UsernameNotFoundException("Felhasználó nem található: " + username));
-        return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
-//        return new User("foo", "foo", new ArrayList<>());
     }
 
 }
