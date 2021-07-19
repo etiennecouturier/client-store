@@ -24,4 +24,9 @@ public class DataMaintenanceController {
         dataMaintenanceService.deleteAllData();
     }
 
+    @GetMapping("/create-users")
+    public void createUseres() {
+        dataMaintenanceService.createUsers();
+    }
+
 }

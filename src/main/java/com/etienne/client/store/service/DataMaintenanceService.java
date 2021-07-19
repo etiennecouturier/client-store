@@ -1,9 +1,11 @@
 package com.etienne.client.store.service;
 
 import com.etienne.client.store.MainApplication;
+import com.etienne.client.store.model.auth.OpticsUser;
 import com.etienne.client.store.model.domain.*;
 import com.etienne.client.store.repository.ClientRepository;
 import com.etienne.client.store.repository.NameSexRepository;
+import com.etienne.client.store.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,8 @@ public class DataMaintenanceService {
 
     private final NameSexRepository nameSexRepository;
 
+    private final UserRepository userRepository;
+
     private final AgeService ageService;
 
     private final NameSexService nameSexService;
@@ -49,6 +53,11 @@ public class DataMaintenanceService {
         importClients().forEach(clientRepository::save);
         nameSexRepository.findAll().forEach(nameSex -> log.info("saving " + nameSex.toString()));
         clientRepository.findAll().forEach(client -> log.info("saving " + client.toString()));
+    }
+
+    public void createUsers() {
+        OpticsUser gyongyi = new OpticsUser("gyongyi", "$2a$10$UUFd2CzwAbyrb9trxggBrOodWh27FbIX9eWO/6yPxGqYjRZbU9.fi");
+        userRepository.save(gyongyi);
     }
 
     private List<NameSex> importNamesWithSex() {

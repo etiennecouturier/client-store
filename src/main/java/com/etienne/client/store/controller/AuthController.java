@@ -26,12 +26,12 @@ public class AuthController {
     public ResponseEntity<AuthenticationResponse> filterClients(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUserName(), authenticationRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
             );
         } catch (BadCredentialsException e) {
             throw new Exception("Bad credentials");
         }
-        UserDetails userDetails = mongoUserDetailsService.loadUserByUsername(authenticationRequest.getUserName());
+        UserDetails userDetails = mongoUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         String jwt = jwtService.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
