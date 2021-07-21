@@ -3,7 +3,6 @@ package com.etienne.client.store.controller;
 import com.etienne.client.store.model.auth.AuthenticationRequest;
 import com.etienne.client.store.model.auth.AuthenticationResponse;
 import com.etienne.client.store.service.JwtService;
-import com.etienne.client.store.service.MongoUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +19,6 @@ import static org.springframework.http.ResponseEntity.ok;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-
-    private final MongoUserDetailsService mongoUserDetailsService;
 
     private final JwtService jwtService;
 

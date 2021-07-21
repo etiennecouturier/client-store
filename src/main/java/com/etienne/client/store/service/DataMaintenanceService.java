@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
@@ -56,7 +57,12 @@ public class DataMaintenanceService {
     }
 
     public void createUsers() {
-        OpticsUser gyongyi = new OpticsUser("gyongyi", "$2a$10$UUFd2CzwAbyrb9trxggBrOodWh27FbIX9eWO/6yPxGqYjRZbU9.fi");
+        OpticsUser gyongyi = new OpticsUser(
+                "gyongyi",
+                "gypuskas45@gmail.com",
+                "$2a$10$UUFd2CzwAbyrb9trxggBrOodWh27FbIX9eWO/6yPxGqYjRZbU9.fi",
+                new HashSet<>()
+                );
         userRepository.save(gyongyi);
     }
 
