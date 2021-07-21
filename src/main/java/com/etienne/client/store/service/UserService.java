@@ -20,7 +20,7 @@ public class UserService {
     public OpticsUser saveUser(OpticsUser user) {
         user.setPassword(
                 passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        return userRepository.insert(user);
     }
 
 }
