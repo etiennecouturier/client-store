@@ -10,11 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ClientVisit {
-
     private String id;
     private String name;
     private String tel;
     private String email;
     private Visit visit;
-
 }

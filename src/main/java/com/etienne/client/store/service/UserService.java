@@ -5,6 +5,7 @@ import com.etienne.client.store.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,14 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public OpticsUser saveUser(OpticsUser user) {
-        user.setPassword(
-                passwordEncoder.encode(user.getPassword()));
-        return userRepository.insert(user);
+    public OpticsUser saveUser(OpticsUser user) throws Exception {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        try {
+            return userRepository.insert(user);
+        } catch (DuplicateKeyException e) {
+            throw new Exception("a felhasználó már létezik");
+        }
+
     }
 
 }
