@@ -18,7 +18,7 @@ public class UserController {
 
     @PostMapping(path = "/new")
     @ResponseStatus(CREATED)
-    public OpticsUser saveClient(@RequestBody OpticsUser user) throws Exception {
+    public OpticsUser saveClient(@RequestBody OpticsUser user) {
         return userService.saveUser(user);
     }
 

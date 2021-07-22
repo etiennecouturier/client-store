@@ -21,7 +21,7 @@ public class MongoUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .map(user -> new User(user.getUsername(), user.getPassword(), new ArrayList<>()))
-                .orElseThrow(() -> new UsernameNotFoundException("Felhasználó nem található: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("felhasználó nem található: " + username));
     }
 
 }

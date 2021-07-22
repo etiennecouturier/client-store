@@ -1,6 +1,7 @@
 package com.etienne.client.store.service;
 
 import com.etienne.client.store.model.domain.ClientVisit;
+import com.etienne.client.store.model.exception.PdfDownloadException;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
@@ -31,9 +32,13 @@ public class PdfService {
      * for font related infos:
      * https://github.com/Valuya/fontbox/blob/master/examples/src/main/java/org/apache/pdfbox/examples/interactive/form/CreateSimpleFormWithEmbeddedFont.java
      */
-    public InputStream downloadPdf(String visitId) throws IOException {
-        ClientVisit client = clientService.findClientWithVisit(visitId);
-        return downloadPdf(client);
+    public InputStream downloadPdf(String visitId) {
+        try {
+            ClientVisit client = clientService.findClientWithVisit(visitId);
+            return downloadPdf(client);
+        } catch (IOException e) {
+            throw new PdfDownloadException();
+        }
     }
 
     InputStream downloadPdf(ClientVisit client) throws IOException {

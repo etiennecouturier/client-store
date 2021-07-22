@@ -18,7 +18,7 @@ public class AuthController {
 
     @PostMapping(path = "/generate-token")
     public ResponseEntity<AuthenticationResponse> generateToken(
-            @RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+            @RequestBody AuthenticationRequest authenticationRequest) {
         return authService.generateToken(authenticationRequest);
     }
 

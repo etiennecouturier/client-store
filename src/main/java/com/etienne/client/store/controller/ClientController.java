@@ -2,7 +2,6 @@ package com.etienne.client.store.controller;
 
 import com.etienne.client.store.model.domain.Client;
 import com.etienne.client.store.model.domain.ClientVisit;
-import com.etienne.client.store.model.exception.ClientNotFoundException;
 import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
 import com.etienne.client.store.service.ClientService;
@@ -30,7 +29,7 @@ public class ClientController {
     }
 
     @GetMapping(path = "/id")
-    public Client findClientById(String id) throws ClientNotFoundException {
+    public Client findClientById(String id) {
         return clientService.findClientById(id);
     }
 

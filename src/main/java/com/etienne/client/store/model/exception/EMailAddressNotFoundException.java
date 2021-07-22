@@ -1,7 +1,9 @@
 package com.etienne.client.store.model.exception;
 
-public class EMailAddressNotFoundException extends Exception {
+public class EMailAddressNotFoundException extends RuntimeException {
+
     public EMailAddressNotFoundException() {
-        super("Nincs email cím megadva");
+        super("nincs email cím megadva");
     }
+
 }

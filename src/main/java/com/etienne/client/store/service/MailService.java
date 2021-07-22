@@ -29,7 +29,7 @@ public class MailService {
 
     private final ClientService clientService;
 
-    public void sendMessage(String visitId) throws MessagingException, IOException, EMailAddressNotFoundException {
+    public void sendMessage(String visitId) throws MessagingException, IOException {
         ClientVisit client = clientService.findClientWithVisit(visitId);
         if (client.getEmail().isEmpty()) throw new EMailAddressNotFoundException();
         MimeMessage message = emailSender.createMimeMessage();

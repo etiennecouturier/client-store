@@ -1,6 +1,7 @@
 package com.etienne.client.store.service;
 
 import com.etienne.client.store.model.auth.OpticsUser;
+import com.etienne.client.store.model.exception.DuplicateUserException;
 import com.etienne.client.store.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +19,13 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public OpticsUser saveUser(OpticsUser user) throws Exception {
+    public OpticsUser saveUser(OpticsUser user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         try {
             return userRepository.insert(user);
         } catch (DuplicateKeyException e) {
-            throw new Exception("a felhasználó már létezik");
+            throw new DuplicateUserException();
         }
-
     }
 
 }

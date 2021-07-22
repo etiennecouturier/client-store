@@ -2,6 +2,7 @@ package com.etienne.client.store.service;
 
 import com.etienne.client.store.model.auth.AuthenticationRequest;
 import com.etienne.client.store.model.auth.AuthenticationResponse;
+import com.etienne.client.store.model.exception.AuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,14 @@ public class AuthService {
 
     private final JwtService jwtService;
 
-    public ResponseEntity<AuthenticationResponse> generateToken(AuthenticationRequest authenticationRequest) throws Exception {
+    public ResponseEntity<AuthenticationResponse> generateToken(AuthenticationRequest authenticationRequest) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                             authenticationRequest.getPassword()));
             return ok(new AuthenticationResponse(jwtService.generateToken(authenticationRequest.getUsername())));
         }catch (AuthenticationException e) {
-            throw new Exception("helytelen felhasználónév vagy jelszó");
+            throw new AuthException();
         }
     }
 

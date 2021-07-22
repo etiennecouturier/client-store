@@ -36,14 +36,14 @@ public class ClientService {
         );
     }
 
-    public Client findClientById(String id) throws ClientNotFoundException {
+    public Client findClientById(String id) {
         log.info("find client by id: " + id);
         return clientRepository.findById(id)
                 .map(client -> {
                     sort(client.getVisits());
                     return client;
                 })
-                .orElseThrow(() -> new ClientNotFoundException("Client not found"));
+                .orElseThrow(ClientNotFoundException::new);
     }
 
     public Client saveClient(Client client) {
