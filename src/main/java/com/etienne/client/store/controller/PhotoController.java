@@ -22,7 +22,7 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @GetMapping("/{userName}")
-    public ResponseEntity<InputStreamResource> findPhotoByUserName(@PathVariable String userName) {
+    public ResponseEntity<InputStreamResource> findPhotoByUserName(@PathVariable String userName) throws IOException {
         return ResponseEntity
                 .ok()
                 .body(new InputStreamResource(photoService.findPhotoByUserName(userName)));
