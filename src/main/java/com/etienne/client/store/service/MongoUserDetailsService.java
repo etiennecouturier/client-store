@@ -19,8 +19,8 @@ public class MongoUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .map(user -> new User(user.getUsername(), user.getPassword(), new ArrayList<>()))
+        return userRepository.findByName(username)
+                .map(user -> new User(user.getName(), user.getPassword(), new ArrayList<>()))
                 .orElseThrow(() -> new UsernameNotFoundException("felhasználó nem található: " + username));
     }
 

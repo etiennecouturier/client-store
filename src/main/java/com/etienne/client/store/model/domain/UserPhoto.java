@@ -1,22 +1,18 @@
-package com.etienne.client.store.model.auth;
+package com.etienne.client.store.model.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Document
 @NoArgsConstructor
 @AllArgsConstructor
-public class OpticsUser {
+public class UserPhoto {
     @Id
     private String name;
-    private String email;
-    private String password;
-    private Set<String> roles = new HashSet<>();
+    private Binary photo;
 }
