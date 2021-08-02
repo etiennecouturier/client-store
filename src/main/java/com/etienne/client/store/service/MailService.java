@@ -1,6 +1,6 @@
 package com.etienne.client.store.service;
 
-import com.etienne.client.store.model.domain.ClientVisit;
+import  com.etienne.client.store.model.domain.ClientVisit;
 import com.etienne.client.store.model.exception.EMailAddressNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

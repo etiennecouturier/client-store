@@ -25,11 +25,6 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
-    }
-
     String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, username);
