@@ -62,6 +62,7 @@ public class PdfService {
         PDAcroForm form = pdf.getDocumentCatalog().getAcroForm();
         form.getField("name").setValue(client.getName());
         form.getField("tel").setValue(client.getTel());
+        form.getField("seq").setValue(toStr(client.getVisit().getSeq()));
         form.getField("date").setValue(toStr(client.getVisit().getDate().format(ofPattern("yyyy.MM.dd"))));
         form.getField("rightSph").setValue(toStr(client.getVisit().getExam().getRightEye().getDioptria()));
         form.getField("rightCyl").setValue(toStr(client.getVisit().getExam().getRightEye().getCilinder()));

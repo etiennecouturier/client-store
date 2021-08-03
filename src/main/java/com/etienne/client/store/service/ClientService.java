@@ -6,6 +6,7 @@ import com.etienne.client.store.model.exception.ClientNotFoundException;
 import com.etienne.client.store.model.params.PagingParams;
 import com.etienne.client.store.model.params.SortingParams;
 import com.etienne.client.store.repository.ClientRepository;
+import com.etienne.client.store.repository.SequenceDao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -22,9 +23,13 @@ import static org.springframework.data.domain.PageRequest.of;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ClientService {
 
+    private static final String VISIT = "visit";
+
     private final ClientRepository clientRepository;
 
     private final NameSexService nameSexService;
+
+    private final SequenceDao sequenceDao;
 
     public Page<Client> filterClients(Client filter,
                                       SortingParams sortingParams,
@@ -71,7 +76,10 @@ public class ClientService {
         client.getVisits()
                 .stream()
                 .filter(visit -> visit.getId() == null)
-                .forEach(visit -> visit.setId(new ObjectId().toString()));
+                .forEach(visit -> {
+                    visit.setId(new ObjectId().toString());
+                    visit.setSeq(sequenceDao.getNextSequenceId(VISIT));
+                });
     }
 
 }

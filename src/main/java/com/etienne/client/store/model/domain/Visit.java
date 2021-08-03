@@ -13,6 +13,7 @@ import java.time.LocalDate;
 public class Visit implements Comparable<Visit> {
 
     private String id;
+    private long seq;
     private LocalDate date;
     private Exam historicExam;
     private Exam exam;
