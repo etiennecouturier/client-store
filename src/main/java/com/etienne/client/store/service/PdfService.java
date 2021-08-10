@@ -87,8 +87,8 @@ public class PdfService {
         form.getField("discountAmount").setValue(toStr(client.getVisit().getFees().getDiscountAmount()));
         form.getField("paid").setValue(toStr(client.getVisit().getFees().getPaid()));
         form.getField("toBePaid").setValue(toStr(client.getVisit().getFees().getToBePaid()));
-        form.getField("frame").setValue(toStr(client.getVisit().getFrame()));
-        form.getField("lense").setValue(toStr(client.getVisit().getLense()));
+        form.getField("frame").setValue(toStr(client.getVisit().getOtherInfo().getFrame()));
+        form.getField("lense").setValue(toStr(client.getVisit().getOtherInfo().getLense()));
     }
 
     private InputStream writeToStream(PDDocument pdf) throws IOException {

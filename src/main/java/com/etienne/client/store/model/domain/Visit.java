@@ -19,19 +19,17 @@ public class Visit implements Comparable<Visit> {
     private Exam exam;
     private Exam contactLenseExam;
     private Fees fees;
-    private String frame;
-    private String lense;
+    private OtherInfo otherInfo;
 
     public Visit(LocalDate date, Exam historicExam, Exam exam, Exam contactLenseExam, Fees fees,
-                 String frame, String lense) {
+                 OtherInfo otherInfo) {
         this.id = new ObjectId().toString();
         this.date = date;
         this.historicExam = historicExam;
         this.exam = exam;
         this.contactLenseExam = contactLenseExam;
         this.fees = fees;
-        this.frame = frame;
-        this.lense = lense;
+        this.otherInfo = otherInfo;
     }
 
     @Override

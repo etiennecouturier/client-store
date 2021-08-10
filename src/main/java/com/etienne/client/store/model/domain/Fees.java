@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Fees {
-
     private Integer frame;
     private Integer rightLense;
     private Integer leftLense;
@@ -20,5 +19,4 @@ public class Fees {
     private Integer total;
     private Integer discountAmount;
     private Integer toBePaid;
-
 }

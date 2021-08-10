@@ -42,9 +42,7 @@ public class StatsService {
 
     public List<CountPerSex> getVisitorCountPerSex() {
         log.info("calculating number of visitors based on their sex");
-        return statsRepository.findVisitorCountPerSex()
-                .stream()
-                .peek(e -> e.setSex(sex.get(e.getSex()))).collect(toList());
+        return statsRepository.findVisitorCountPerSex();
     }
 
 }
