@@ -1,6 +1,7 @@
 package com.etienne.client.store.service;
 
 import  com.etienne.client.store.model.domain.ClientVisit;
+import com.etienne.client.store.model.domain.MailContent;
 import com.etienne.client.store.model.exception.EMailAddressNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +30,14 @@ public class MailService {
 
     private final ClientService clientService;
 
-    public void sendMessage(String visitId) throws MessagingException, IOException {
-        ClientVisit client = clientService.findClientWithVisit(visitId);
+    public void sendMessage(MailContent mailContent) throws MessagingException, IOException {
+        ClientVisit client = clientService.findClientWithVisit(mailContent.getVisitId());
         if (client.getEmail().isEmpty()) throw new EMailAddressNotFoundException();
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(client.getEmail());
-        helper.setSubject("Vásárlás részletei");
-        helper.setText("Kedves Vásárló!\n\n" +
-                "A mai látogatásának részleteit a csatolt fájl tartalmazza.\n\n" +
-                "Üdvözlettel,\n" +
-                "Gyöngyi Optika");
+        helper.setSubject(mailContent.getTitle());
+        helper.setText(mailContent.getBody());
         helper.addAttachment("vasarlas.pdf",
                 new ByteArrayDataSource(pdfService.downloadPdf(client), APPLICATION_PDF_VALUE));
         emailSender.send(message);
