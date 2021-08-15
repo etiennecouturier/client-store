@@ -14,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.Spliterator.ORDERED;
@@ -25,6 +26,8 @@ import static org.apache.pdfbox.pdmodel.font.PDType0Font.load;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PdfService {
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 
     private final ClientService clientService;
 
@@ -63,7 +66,7 @@ public class PdfService {
         form.getField("name").setValue(client.getName());
         form.getField("tel").setValue(client.getTel());
         form.getField("seq").setValue(toStr(client.getVisit().getSeq()));
-        form.getField("date").setValue(toStr(client.getVisit().getDate().format(ofPattern("yyyy.MM.dd"))));
+        form.getField("date").setValue(toStr(sdf.format(client.getVisit().getDate())));
         form.getField("rightSph").setValue(toStr(client.getVisit().getExam().getRightEye().getDioptria()));
         form.getField("rightCyl").setValue(toStr(client.getVisit().getExam().getRightEye().getCilinder()));
         form.getField("rightAxs").setValue(toStr(client.getVisit().getExam().getRightEye().getFok()));

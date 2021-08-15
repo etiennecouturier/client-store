@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @Document
@@ -14,14 +14,14 @@ public class Visit implements Comparable<Visit> {
 
     private String id;
     private long seq;
-    private LocalDate date;
+    private Date date;
     private Exam historicExam;
     private Exam exam;
     private Exam contactLenseExam;
     private Fees fees;
     private OtherInfo otherInfo;
 
-    public Visit(LocalDate date, Exam historicExam, Exam exam, Exam contactLenseExam, Fees fees,
+    public Visit(Date date, Exam historicExam, Exam exam, Exam contactLenseExam, Fees fees,
                  OtherInfo otherInfo) {
         this.id = new ObjectId().toString();
         this.date = date;
