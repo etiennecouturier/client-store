@@ -14,13 +14,10 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -28,6 +25,7 @@ import static java.lang.Double.parseDouble;
 import static java.time.LocalDate.parse;
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.Objects.requireNonNull;
+import static java.util.Optional.ofNullable;
 
 @Slf4j
 @Service
@@ -35,7 +33,6 @@ import static java.util.Objects.requireNonNull;
 public class DataMaintenanceService {
 
     private static final DateTimeFormatter dtf = ofPattern("yyyy/MM/dd");
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     private final ClientRepository clientRepository;
 
@@ -67,7 +64,7 @@ public class DataMaintenanceService {
                 "gypuskas45@gmail.com",
                 "$2a$10$UUFd2CzwAbyrb9trxggBrOodWh27FbIX9eWO/6yPxGqYjRZbU9.fi",
                 new HashSet<>()
-                );
+        );
         userRepository.save(gyongyi);
     }
 
@@ -96,7 +93,7 @@ public class DataMaintenanceService {
             while ((line = br.readLine()) != null) {
                 String[] p = line.split(",", -1);
                 List<Visit> visits = new ArrayList<>();
-                Visit visit = new Visit(parseUtilDate(p[9]),
+                Visit visit = new Visit(parseLocalDateTime(p[9]),
                         new Exam(
                                 new Eye(null, null, null, null, null, null, null, null),
                                 new Eye(null, null, null, null, null, null, null, null),
@@ -114,12 +111,11 @@ public class DataMaintenanceService {
                         ), new Fees(), new OtherInfo(null, null));
                 visits.add(visit);
                 LocalDate dob = parseDate(p[2]);
-                Client client = new Client(p[0],
-                        dob == null ? null : Date.from(dob.atStartOfDay(ZoneId.systemDefault()).toInstant()), ageService.calculateAge(dob), p[7].isEmpty() ? p[7] : "06" + p[7], p[8], visits);
+                Client client = new Client(p[0], dob, ageService.calculateAge(dob), p[7].isEmpty() ? p[7] : "06" + p[7], p[8], visits);
                 nameSexService.enrichClientWithSex(client);
                 clients.add(client);
             }
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return clients;
@@ -133,8 +129,10 @@ public class DataMaintenanceService {
         return "".equals(strDate) ? null : parse(strDate, dtf);
     }
 
-    private Date parseUtilDate(String strDate) throws ParseException {
-        return "".equals(strDate) ? null : sdf.parse(strDate);
+    private LocalDateTime parseLocalDateTime(String strDate) {
+        return ofNullable(parseDate(strDate))
+                .map(LocalDate::atStartOfDay)
+                .orElse(null);
     }
 
 }
